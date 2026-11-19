@@ -126,6 +126,17 @@ p {
       0 20px 50px -20px rgb(70 21 112 / 0.28),
       0 4px 14px -6px rgb(70 21 112 / 0.12);
   }
+  /* Near-opaque glass for the header and menus so nothing bleeds through from the hero */
+  .glass-solid {
+    background: rgb(255 255 255 / 0.94);
+    backdrop-filter: blur(28px) saturate(1.6);
+    -webkit-backdrop-filter: blur(28px) saturate(1.6);
+    border: 1px solid rgb(255 255 255 / 0.9);
+    box-shadow:
+      0 1px 0 rgb(255 255 255) inset,
+      0 24px 60px -20px rgb(48 14 78 / 0.35),
+      0 4px 14px -6px rgb(48 14 78 / 0.15);
+  }
   .glass-tint {
     background: linear-gradient(135deg, rgb(111 33 166 / 0.92), rgb(70 21 112 / 0.96));
     border: 1px solid rgb(255 255 255 / 0.18);

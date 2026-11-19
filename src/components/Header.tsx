@@ -59,7 +59,7 @@ export default function Header() {
         }`}
       >
         <div
-          className={`glass mx-auto flex max-w-7xl items-center justify-between gap-4 rounded-full py-2 pl-4 pr-2.5 transition-all duration-500 sm:pl-6 ${
+          className={`glass-solid mx-auto flex max-w-7xl items-center justify-between gap-4 rounded-full py-2 pl-4 pr-2.5 transition-all duration-500 sm:pl-6 ${
             scrolled ? "shadow-[0_24px_60px_-24px_rgb(70_21_112/0.45)]" : ""
           }`}
         >
@@ -77,7 +77,7 @@ export default function Header() {
                       <ChevronDown className="h-3.5 w-3.5 transition-transform group-focus-within:rotate-180 group-hover:rotate-180" />
                     </Link>
                     <div className="invisible absolute left-1/2 top-full w-[26rem] -translate-x-1/2 translate-y-2 pt-3 opacity-0 transition-all duration-300 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
-                      <div className="glass grid gap-2 rounded-3xl p-2">
+                      <div className="glass-solid grid gap-2 rounded-3xl p-2">
                         {services.map((s) => (
                           <Link key={s.slug} href={`/services/${s.slug}`} className="flex items-center gap-4 rounded-2xl p-2.5 transition-colors hover:bg-plum-50">
                             <span className="relative h-16 w-20 shrink-0 overflow-hidden rounded-xl">
@@ -102,7 +102,7 @@ export default function Header() {
                       <ChevronDown className="h-3.5 w-3.5 transition-transform group-focus-within:rotate-180 group-hover:rotate-180" />
                     </Link>
                     <div className="invisible absolute inset-x-0 top-full translate-y-2 px-3 pt-3 opacity-0 transition-all duration-300 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 sm:px-6">
-                      <div className="glass mx-auto grid max-w-6xl grid-cols-4 gap-6 rounded-[2rem] p-7">
+                      <div className="glass-solid mx-auto grid max-w-6xl grid-cols-4 gap-6 rounded-[2rem] p-7">
                         {byGroup.map((g) => (
                           <div key={g.name}>
                             <p className="mb-3 border-b border-plum-100 pb-2 text-[0.68rem] font-extrabold uppercase tracking-[0.2em] text-sun-600">{g.name}</p>
