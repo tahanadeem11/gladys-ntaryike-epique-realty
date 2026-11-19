@@ -16,6 +16,7 @@ const byGroup = groups.map((g) => ({
 export default function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [menu, setMenu] = useState<"services" | "areas" | null>(null);
   const [sub, setSub] = useState<"services" | "areas" | null>(null);
   const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -39,6 +40,18 @@ export default function Header() {
       document.documentElement.style.overflow = "";
     };
   }, [open]);
+
+  useEffect(() => {
+    if (!menu) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setMenu(null);
+    const onScroll = () => setMenu(null);
+    window.addEventListener("keydown", onKey);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, [menu]);
 
   const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
   const close = () => {
@@ -71,15 +84,15 @@ export default function Header() {
             {nav.map((item) => {
               if (item.href === "/services") {
                 return (
-                  <div key={item.href} className="group relative">
-                    <Link href={item.href} className={linkCls(item.href)}>
+                  <div key={item.href} className="group relative" data-open={menu === "services"} onMouseEnter={() => setMenu("services")} onMouseLeave={() => setMenu(null)}>
+                    <Link href={item.href} onClick={() => setMenu(null)} className={linkCls(item.href)}>
                       {item.label}
-                      <ChevronDown className="h-3.5 w-3.5 transition-transform group-focus-within:rotate-180 group-hover:rotate-180" />
+                      <ChevronDown className="h-3.5 w-3.5 transition-transform group-data-[open=true]:rotate-180" />
                     </Link>
-                    <div className="invisible absolute left-1/2 top-full w-[26rem] -translate-x-1/2 translate-y-2 pt-3 opacity-0 transition-all duration-300 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
+                    <div className="invisible absolute left-1/2 top-full w-[26rem] -translate-x-1/2 translate-y-2 pt-3 opacity-0 transition-all duration-300 group-data-[open=true]:visible group-data-[open=true]:translate-y-0 group-data-[open=true]:opacity-100">
                       <div className="glass-solid grid gap-2 rounded-3xl p-2">
                         {services.map((s) => (
-                          <Link key={s.slug} href={`/services/${s.slug}`} className="flex items-center gap-4 rounded-2xl p-2.5 transition-colors hover:bg-plum-50">
+                          <Link key={s.slug} href={`/services/${s.slug}`} onClick={() => setMenu(null)} className="flex items-center gap-4 rounded-2xl p-2.5 transition-colors hover:bg-plum-50">
                             <span className="relative h-16 w-20 shrink-0 overflow-hidden rounded-xl">
                               <Image src={s.image} alt="" fill sizes="80px" className="object-cover" />
                             </span>
@@ -96,12 +109,12 @@ export default function Header() {
               }
               if (item.href === "/areas") {
                 return (
-                  <div key={item.href} className="group static">
-                    <Link href={item.href} className={linkCls(item.href)}>
+                  <div key={item.href} className="group static" data-open={menu === "areas"} onMouseEnter={() => setMenu("areas")} onMouseLeave={() => setMenu(null)}>
+                    <Link href={item.href} onClick={() => setMenu(null)} className={linkCls(item.href)}>
                       {item.label}
-                      <ChevronDown className="h-3.5 w-3.5 transition-transform group-focus-within:rotate-180 group-hover:rotate-180" />
+                      <ChevronDown className="h-3.5 w-3.5 transition-transform group-data-[open=true]:rotate-180" />
                     </Link>
-                    <div className="invisible absolute inset-x-0 top-full translate-y-2 px-3 pt-3 opacity-0 transition-all duration-300 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 sm:px-6">
+                    <div className="invisible absolute inset-x-0 top-full translate-y-2 px-3 pt-3 opacity-0 transition-all duration-300 group-data-[open=true]:visible group-data-[open=true]:translate-y-0 group-data-[open=true]:opacity-100 sm:px-6">
                       <div className="glass-solid mx-auto grid max-w-6xl grid-cols-4 gap-6 rounded-[2rem] p-7">
                         {byGroup.map((g) => (
                           <div key={g.name}>
@@ -109,7 +122,7 @@ export default function Header() {
                             <ul className="space-y-0.5">
                               {g.items.map((a) => (
                                 <li key={a.slug}>
-                                  <Link href={`/areas/${a.slug}`} className="group/a flex items-center justify-between rounded-lg px-2 py-1.5 text-sm font-semibold text-ink/80 transition-colors hover:bg-plum-50 hover:text-plum-700">
+                                  <Link href={`/areas/${a.slug}`} onClick={() => setMenu(null)} className="group/a flex items-center justify-between rounded-lg px-2 py-1.5 text-sm font-semibold text-ink/80 transition-colors hover:bg-plum-50 hover:text-plum-700">
                                     {a.name}
                                     <span className="text-[0.65rem] font-bold text-ink/35 group-hover/a:text-sun-600">{a.miles === 0 ? "HQ" : `${a.miles} mi`}</span>
                                   </Link>
@@ -118,7 +131,7 @@ export default function Header() {
                             </ul>
                           </div>
                         ))}
-                        <Link href="/areas" className="col-span-4 -mb-1 flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-plum-600 to-plum-800 py-3 text-sm font-bold text-white">
+                        <Link href="/areas" onClick={() => setMenu(null)} className="col-span-4 -mb-1 flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-plum-600 to-plum-800 py-3 text-sm font-bold text-white">
                           View all {areasWithDistance.length} areas &amp; the service map →
                         </Link>
                       </div>
