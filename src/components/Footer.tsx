@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { cacheLife } from "next/cache";
 import { Mail, MapPin, Phone } from "lucide-react";
-import { areasWithDistance, nav, services, site } from "@/lib/site";
+import { areasWithDistance, footerLinks, nav, services, site } from "@/lib/site";
 
 async function getYear() {
   "use cache";
@@ -49,11 +49,13 @@ export default async function Footer() {
                 </Link>
               </li>
             ))}
-            <li>
-              <Link href="/contact" className="text-ink/70 transition-colors hover:text-plum-600">
-                Contact
-              </Link>
-            </li>
+            {footerLinks.map((n) => (
+              <li key={n.href}>
+                <Link href={n.href} className="text-ink/70 transition-colors hover:text-plum-600">
+                  {n.label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
 
@@ -95,6 +97,18 @@ export default async function Footer() {
             © {year} {site.name} · {site.brokerage}. All rights reserved.
           </p>
           <p>Equal Housing Opportunity. Serving Euless, TX &amp; the Dallas–Fort Worth Metroplex.</p>
+        </div>
+        <div className="container-x flex flex-wrap items-center justify-center gap-x-6 gap-y-2 pb-6 text-xs font-semibold text-plum-700">
+          <Link href="/iabs" className="underline-offset-4 hover:underline">Texas Real Estate Commission: Information About Brokerage Services</Link>
+          <a href="https://www.trec.texas.gov" target="_blank" rel="noopener noreferrer" className="underline-offset-4 hover:underline">TREC Consumer Protection Notice</a>
+        </div>
+        <div className="border-t border-plum-100 bg-plum-50/60">
+          <p className="container-x py-4 text-center text-xs font-semibold text-ink/60">
+            © Copyright {year}{" "}
+            <a href="http://nextlevelrankers.com/" target="_blank" rel="noopener noreferrer" className="font-bold text-plum-700 underline-offset-4 hover:text-sun-600 hover:underline">
+              Powered By Next Level Rankers
+            </a>
+          </p>
         </div>
       </div>
     </footer>

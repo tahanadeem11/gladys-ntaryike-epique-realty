@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Clock, Mail, MapPin, Phone } from "lucide-react";
 import ContactForm from "@/components/ContactForm";
 import { PageHero } from "@/components/ui";
@@ -57,6 +58,9 @@ export default function ContactPage() {
           </div>
           <div data-reveal="right">
             <ContactForm />
+            <p className="mt-4 px-2 text-center text-xs text-ink/55">
+              Before working together, please review the <Link href="/iabs" className="font-bold text-plum-700 underline-offset-4 hover:underline">Texas Real Estate Commission Information About Brokerage Services</Link>.
+            </p>
           </div>
         </div>
       </section>

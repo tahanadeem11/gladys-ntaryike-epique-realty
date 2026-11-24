@@ -8,6 +8,8 @@ import AreaMap from "@/components/AreaMap";
 import ProcessTabs from "@/components/ProcessTabs";
 import Calculator from "@/components/Calculator";
 import { CtaBand, Faq, Marquee, ParallaxImage, SectionHeading, Split } from "@/components/ui";
+import { TransactionCard } from "@/components/Transactions";
+import { fmtCompactVolume, stats, transactions } from "@/lib/transactions";
 import { areaImage, areasWithDistance, faqs, services, site } from "@/lib/site";
 
 const why = [
@@ -195,6 +197,27 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ───────── RECENT SALES ───────── */}
+      <section className="section-y">
+        <div className="container-x">
+          <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
+            <SectionHeading
+              eyebrow="Recently sold"
+              title={<>Real results, <span className="text-gradient">real addresses.</span></>}
+              body={`${stats.closings} closed transactions and ${fmtCompactVolume(stats.volume)} in sales volume across ${stats.cities} cities — representing both buyers and sellers.`}
+            />
+            <Link href="/listings" data-magnetic className="btn btn-primary shrink-0">View all sales <ArrowRight className="h-4 w-4" /></Link>
+          </div>
+          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {transactions.slice(0, 6).map((t, i) => (
+              <div key={t.id} data-reveal data-delay={(i % 3) * 0.08}>
+                <TransactionCard t={t} />
+              </div>
+            ))}
           </div>
         </div>
       </section>

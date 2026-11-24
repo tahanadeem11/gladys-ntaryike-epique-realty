@@ -17,9 +17,16 @@ export const nav = [
   { href: "/", label: "Home" },
   { href: "/services", label: "Services" },
   { href: "/areas", label: "Areas" },
+  { href: "/listings", label: "Listings" },
   { href: "/about", label: "About" },
-  { href: "/mortgage-calculator", label: "Calculator" },
   { href: "/faq", label: "FAQ" },
+];
+
+/** Extra links shown in the footer only. */
+export const footerLinks = [
+  { href: "/mortgage-calculator", label: "Mortgage Calculator" },
+  { href: "/contact", label: "Contact" },
+  { href: "/iabs", label: "Information About Brokerage Services (IABS)" },
 ];
 
 /* ─────────────────────────  SERVICES  ───────────────────────── */

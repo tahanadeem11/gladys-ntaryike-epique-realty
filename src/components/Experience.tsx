@@ -78,6 +78,7 @@ export default function Experience() {
 
     let ctx: gsap.Context | undefined;
     let io: IntersectionObserver | undefined;
+    let mo: MutationObserver | undefined;
     let cancelled = false;
     let timer = 0;
     const animated: Element[] = [];
@@ -129,7 +130,26 @@ export default function Experience() {
           },
           { rootMargin: "0px 0px -6% 0px", threshold: 0.01 },
         );
-        document.querySelectorAll("[data-split], [data-reveal], [data-count]").forEach((el) => io!.observe(el));
+        const SEL = "[data-split], [data-reveal], [data-count]";
+        document.querySelectorAll(SEL).forEach((el) => io!.observe(el));
+
+        // Pick up markup swapped in after first paint (hot reload, client-side updates)
+        const main = document.querySelector("main");
+        if (main) {
+          mo = new MutationObserver((records) => {
+            records.forEach((r) =>
+              r.addedNodes.forEach((n) => {
+                if (!(n instanceof HTMLElement)) return;
+                const found = [...(n.matches(SEL) ? [n] : []), ...n.querySelectorAll<HTMLElement>(SEL)];
+                found.forEach((el) => {
+                  if (el.hasAttribute("data-split")) gsap.set(el.querySelectorAll(".word-inner"), { y: (_i, t: HTMLElement) => t.offsetHeight * 1.25, rotate: 4, opacity: 1 });
+                  io?.observe(el);
+                });
+              }),
+            );
+          });
+          mo.observe(main, { childList: true, subtree: true });
+        }
 
         // Parallax images
         gsap.utils.toArray<HTMLElement>("[data-parallax]").forEach((el) => {
@@ -166,6 +186,7 @@ export default function Experience() {
       cancelled = true;
       window.clearTimeout(timer);
       io?.disconnect();
+      mo?.disconnect();
       animated.forEach((el) => gsap.killTweensOf(el.querySelectorAll?.(".word-inner") ?? el));
       animated.forEach((el) => gsap.killTweensOf(el));
       ctx?.revert();
